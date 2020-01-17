@@ -1,0 +1,332 @@
+<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.0.js">
+</script>
+<title>标题</title>
+
+<!-- <div class="layui-carousel" id="test1" > -->
+  <!-- <div carousel-item  > -->
+    <!-- <div><img src='http://wapjin.com/Uploads/upload/2019-03-22/a.png'></div> -->
+    <!-- <div><img src='http://wapjin.com/Uploads/upload/2019-03-22/5c94e79c39e66.jpg'></div> -->
+    <!-- <div>条目3</div> -->
+    
+  <!-- </div> -->
+<!-- </div> -->
+
+<div class="layui-fluid " >
+  <div class="layui-row layui-col-space15" style='width:50%;'>
+
+    <div class="layui-card" >
+        <div class="layui-card-header"><h3>公告</h3></div>
+     <div class="layui-card-body">忆梦博客欢迎你！</div>
+      </div>
+
+   
+	<br>
+    
+
+   
+    <div class="layui-card" >
+        <div class="layui-card-header"><h3>最新发布列表</h3></div>
+     
+      <div class="layui-card-body">
+	  <div id='datas'></div>
+<div>
+</div>
+	  
+ <div class="layui-form">  
+<input type="hidden" name="page"  id="page" value="0">
+<button class="layui-btn" lay-submit  lay-filter="form2">上一页</button>
+<button class="layui-btn" lay-submit  lay-filter="form1">下一页</button>
+</div>
+</div>
+</div>
+
+<div class="layui-form"  style='position:fixed; left:60%; top:25px; width:100%; height:5%; border: none; -webkit-animation-duration: .5s; animation-duration: .5s;'>
+<div class="layui-form-item">
+    <label class="layui-form-label"><input type="text" name="title" required  style="width:300px;" lay-verify="required" placeholder="请输入搜索内容" autocomplete="off" class="layui-input"></label>
+   <label class="layui-form-label"></label><label class="layui-form-label">&nbsp;<button class="layui-btn" lay-submit  lay-filter="formDemo">搜 索</button></label>
+      
+  </div>
+  
+
+  
+</div>
+
+<div style='position:fixed; left:61%; top:100px; width:100%; height:5%; border: none; -webkit-animation-duration: .5s; animation-duration: .5s;'>
+
+   <div class="layui-card" >
+        <div class="layui-card-header" ><h3>友情连接</h3></div>
+<div style="float:left; margin:20px;" >
+		<p ><a href=''>jinjin</a> </p>
+<br>
+		<p><a href=''>jinjin</a> </p>
+</div>
+      </div>
+</div>
+
+
+<script>
+layui.use('contlist', layui.factory('contlist')).use(['admin', 'contlist', 'table','laydate','carousel','element'], function(){
+ var $ = layui.$
+ ,element = layui.element
+ ,carousel = layui.carousel
+ ,form = layui.form;
+ 
+
+
+  form.on('submit(form1)', function(data){
+      var field = data.field;
+	  var html='';
+      <!-- console.log(field) -->
+	  
+ $.ajax(
+				{
+				url:"../api/index.php?page="+field.page,
+				
+				success:function(dr){
+                //提交 Ajax 成功后，关闭当前弹层并重载表格
+                //$.ajax({});
+			
+		
+				var html='';
+				for (var i in dr){
+				html +='<div class="layui-form"  style="border-left:10px solid #00FA9A;	border-top:1px solid #00FA9A; border-bottom:1px solid #00FA9A;	border-right:1px solid #00FA9A; border-radius:5px 0px 5px 0px; " >'
+				html+='<input type="hidden" name="title" placeholder="请输入" value="'+dr[i]['title']+'" autocomplete="off" class="layui-input" />';
+				html+='<input type="hidden" name="wen"  value="';
+				html+=dr[i]['ly'];
+				html+=' " />';
+				html +='<div class="layui-card" lay-submit lay-filter="LAY-app-contlist-search">';
+				html +='<div class="layui-card-header"><h3>['+dr[i]['lei']+']&nbsp;&nbsp;'+dr[i]['title']+'</h3>';
+				if (dr[i]['time']!=''){
+				html+='</div ><div class="layui-card-body">发布时间：'+dr[i]['time'];
+				}else{
+					html+='</div ><div class="layui-card-body">发布时间：未知';
+				}
+				
+
+          html+='&nbsp;&nbsp;&nbsp;&nbsp;浏览量：'+dr[i]['shu']+'</div></div></div> <br>';
+				
+				}
+				$("#page").val(Number(dr[0]['page'])+5);
+			
+				<!-- console.log(html); -->
+				$('#datas').html(html);
+				<!-- if(eval('(' + dr + ')')['code']=='1'){ -->
+				<!-- layer.msg('提交成功'); -->
+				<!-- }else{ -->
+				<!-- layer.msg('提交失败'); -->
+				<!-- } -->
+				
+				}
+				 });	  
+	  
+
+      //执行重载
+    
+    });
+
+  form.on('submit(form2)', function(data){
+      var field = data.field;
+	  var html='';
+      <!-- console.log(field) -->
+	  
+ $.ajax(
+				{
+				url:"../api/index.php?page="+field.page,
+				
+				success:function(dr){
+                //提交 Ajax 成功后，关闭当前弹层并重载表格
+                //$.ajax({});
+			
+		
+				var html='';
+				for (var i in dr){
+				html +='<div class="layui-form"  style="border-left:10px solid #00FA9A;	border-top:1px solid #00FA9A; border-bottom:1px solid #00FA9A;	border-right:1px solid #00FA9A; border-radius:5px 0px 5px 0px; " >'
+				html+='<input type="hidden" name="title" placeholder="请输入" value="'+dr[i]['title']+'" autocomplete="off" class="layui-input" />';
+				html+='<input type="hidden" name="wen"  value="';
+				html+=dr[i]['ly'];
+				html+=' " />';
+				html +='<div class="layui-card" lay-submit lay-filter="LAY-app-contlist-search">';
+				html +='<div class="layui-card-header"><h3>['+dr[i]['lei']+']&nbsp;&nbsp;'+dr[i]['title']+'</h3>';
+				if (dr[i]['time']!=''){
+				html+='</div ><div class="layui-card-body">发布时间：'+dr[i]['time'];
+				}else{
+					html+='</div ><div class="layui-card-body">发布时间：未知';
+				}
+				
+
+          html+='&nbsp;&nbsp;&nbsp;&nbsp;浏览量：'+dr[i]['shu']+'</div></div></div> <br>';
+				
+				}
+				$("#page").val(Number(dr[0]['page'])-5);
+			
+				<!-- console.log(html); -->
+				$('#datas').html(html);
+				<!-- if(eval('(' + dr + ')')['code']=='1'){ -->
+				<!-- layer.msg('提交成功'); -->
+				<!-- }else{ -->
+				<!-- layer.msg('提交失败'); -->
+				<!-- } -->
+				
+				}
+				 });	  
+	  
+
+      //执行重载
+    
+    });
+
+
+  form.on('submit(formDemo)', function(data){
+      var field = data.field;
+	  var html='';
+      <!-- console.log(field) -->
+	  
+$.ajax(
+				{
+				url:"../api/index.php?look="+field.title,
+				
+				success:function(dr){
+                //提交 Ajax 成功后，关闭当前弹层并重载表格
+                //$.ajax({});
+			
+			
+				
+				for (var i in dr){
+				html +='<div class="layui-form" style="border-left:10px solid #00FA9A;	border-top:1px solid #00FA9A; border-bottom:1px solid #00FA9A;	border-right:1px solid #00FA9A; border-radius:5px 0px 5px 0px; width:55%; float:left; margin-top:20px; margin-left:200px;  " >'
+				html+='<input type="hidden" name="title" placeholder="请输入" value="'+dr[i]['title']+'" autocomplete="off" class="layui-input" />';
+				html+='<input type="hidden" name="wen"  value="';
+				html+=dr[i]['ly'];
+				html+=' " />';
+				html +='<div class="layui-card" lay-submit lay-filter="LAY-app-contlist-search">';
+				html +='<div class="layui-card-header"><h3>['+dr[i]['lei']+']&nbsp;&nbsp;'+dr[i]['title']+'</h3>';
+				if (dr[i]['time']!=''){
+				html+='</div ><div class="layui-card-body">发布时间：'+dr[i]['time'];
+				}else{
+					html+='</div ><div class="layui-card-body">发布时间：未知';
+				}
+				
+
+          html+='&nbsp;&nbsp;&nbsp;&nbsp;浏览量：'+dr[i]['shu']+'</div></div></div><br></br>';
+				
+				}
+sou = '<div class="layui-form"  style="position:fixed; left:38%; top:35px; width:100%; height:5%; border: none; -webkit-animation-duration: .5s; animation-duration: .5s;"><div class="layui-form-item"><label class="layui-form-label"><input type="text" name="title" required  style="width:300px;" lay-verify="required" placeholder="请输入搜索内容" autocomplete="off" class="layui-input"></label><label class="layui-form-label"></label><label class="layui-form-label">&nbsp;<button class="layui-btn" lay-submit  lay-filter="formDemo">搜 索</button></label></div></div>'
+if (html){
+				layer.open({
+  type: 1,
+  title: '搜索 ： '+field.title,
+  closeBtn: 2,
+  shadeClose: true,
+  area: ['80%', '90%'],
+  skin: 'yourclass',
+  content:sou+html
+ 
+});}else{
+
+				layer.open({
+  type: 1,
+  title: '搜索 ： '+field.title,
+  closeBtn: 2,
+  shadeClose: true,
+  area: ['80%', '90%'],
+  skin: 'yourclass',
+  content:sou+"暂无数据"
+ 
+});
+
+
+
+}
+				<!-- if(eval('(' + dr + ')')['code']=='1'){ -->
+				<!-- layer.msg('提交成功'); -->
+				<!-- }else{ -->
+				<!-- layer.msg('提交失败'); -->
+				<!-- } -->
+				
+				}
+				 });	  
+	  
+
+      //执行重载
+    
+    });
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+	
+	
+  form.on('submit(LAY-app-contlist-search)', function(data){
+      var field = data.field;
+      console.log(field)
+			layer.open({
+  type: 1,
+  title: '首页 > '+field.title,
+  closeBtn: 2,
+  shadeClose: true,
+  area: ['70%', '80%'],
+  skin: 'yourclass',
+  content:'<pre style="float:left; margin:20px;">'+field.wen+'</pre>'
+ 
+});
+      //执行重载
+    
+    });
+	
+	
+ $.ajax(
+				{
+				url:"../api/index.php?page=0",
+				
+				success:function(dr){
+                //提交 Ajax 成功后，关闭当前弹层并重载表格
+                //$.ajax({});
+			
+		
+				var html='';
+				for (var i in dr){
+				html +='<div class="layui-form"  style="border-left:10px solid #00FA9A;	border-top:1px solid #00FA9A; border-bottom:1px solid #00FA9A;	border-right:1px solid #00FA9A; border-radius:5px 0px 5px 0px; " >'
+				html+='<input type="hidden" name="title" placeholder="请输入" value="'+dr[i]['title']+'" autocomplete="off" class="layui-input" />';
+				html+='<input type="hidden" name="wen"  value="';
+				html+=dr[i]['ly'];
+				html+=' " />';
+				html +='<div class="layui-card" lay-submit lay-filter="LAY-app-contlist-search">';
+				html +='<div class="layui-card-header"><h3>['+dr[i]['lei']+']&nbsp;&nbsp;'+dr[i]['title']+'</h3>';
+				if (dr[i]['time']!=''){
+				html+='</div ><div class="layui-card-body">发布时间：'+dr[i]['time'];
+				}else{
+					html+='</div ><div class="layui-card-body">发布时间：未知';
+				}
+				
+
+          html+='&nbsp;&nbsp;&nbsp;&nbsp;浏览量：'+dr[i]['shu']+'</div></div></div> <br>';
+				
+				}
+				$("#page").val(Number(dr[0]['page'])+5);
+				
+				$('#datas').html(html);
+				<!-- if(eval('(' + dr + ')')['code']=='1'){ -->
+				<!-- layer.msg('提交成功'); -->
+				<!-- }else{ -->
+				<!-- layer.msg('提交失败'); -->
+				<!-- } -->
+				
+				}
+				 });
+
+
+ 
+  carousel.render({
+    elem: '#test1'
+    ,width: '50%' //设置容器宽度
+	,height: '20%'
+    ,arrow: 'always' //始终显示箭头
+    //,anim: 'updown' //切换动画方式
+  });
+
+  
+});
+</script>
